@@ -37,6 +37,17 @@ var config={
                     use:'css-loader',
                     fallback:'style-loader'
                 })
+            },
+            {
+                test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
+                use:[
+                    {
+                        loader:'file-loader',
+                        options:{
+                            esModule:false
+                        }
+                    }
+                ]
             }
         ]
     },
