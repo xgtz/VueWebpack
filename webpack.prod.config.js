@@ -13,13 +13,14 @@ module.exports=merge(webpackBaseConfig,{
         publicPath:'/dist/',
         //将入口文件重命名为带有20位hash值的唯一文件
         filename:'[name].[hash].js',
-        sourceMapFilename:'[name].[hash].map',
+        chunkFilename:'[name].[hash].chunk.js'
+        //sourceMapFilename:'[name].[hash].map',
     },
     plugins:[
         // 提取css,并重新命名为带有20位hash值的唯一文件
         new ExtractTextPlugin({
             filename:'[name].[hash].css',
-            allChunks:true
+            allChunks:true      //true表示会把所有的css都提取出来，false只会把初始化的提取，默认是false
         }),
         //定义当前node环境为生产环境
         new webpack.DefinePlugin({

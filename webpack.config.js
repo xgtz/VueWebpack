@@ -8,10 +8,11 @@ var config={
     output:{
         path: path.join(__dirname,'./dist'),
         publicPath:'/dist/',
-        filename:'main.js',
-        sourceMapFilename:'main.map',
+        filename:'[name].js',
+        chunkFilename:'[name].chunk.js'
+        //sourceMapFilename:'main.map',
     },
-    devtool:'#source-map',
+    //devtool:'#source-map',
     module:{
         rules:[
             {
@@ -52,7 +53,7 @@ var config={
         ]
     },
     plugins:[
-        new ExtractTextPlugin("main.css"),
+        new ExtractTextPlugin("[name].css"),
         new VueLoaderPlugin()
     ]
 };
