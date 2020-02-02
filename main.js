@@ -6,11 +6,11 @@ import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import App from './app.vue';
 import Ajax from './vue-xhr';
-
+import axios from 'axios';
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
- Vue.use(Ajax);
+Vue.use(Ajax);
 
 const Routers =[
     {
@@ -79,9 +79,22 @@ const store = new Vuex.Store({
     }
 });
 
+
+// axios.get('./static/project.config.json').then(response => {
+//     //console.log(response.data);
+//     Vue.prototype.baseConfig = response.data
+//     new Vue({
+//         el:'#app',
+//         router: router,
+//         store: store,
+//         render:h=>h(App)
+//     });
+// });
+
 new Vue({
     el:'#app',
     router: router,
     store: store,
     render:h=>h(App)
 });
+

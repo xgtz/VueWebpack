@@ -1,10 +1,13 @@
+
 import axios from 'axios';
+import config from '../static/project.config.json';
+
+//console.log(config);
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 // 基本配置
 const Util={
-    apiPath:'http://127.0.0.1:4001/',
+    apiPath:config.apiPath,
 }
-
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 // Ajax通用配置
 Util.ajax = axios.create({
     baseURL: Util.apiPath

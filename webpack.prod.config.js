@@ -1,9 +1,11 @@
+var path = require('path');
 var webpack = require('webpack');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var VueLoaderPlugin = require('vue-loader/lib/plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var merge = require('webpack-merge');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpackBaseConfig = require('./webpack.config.js');
 
 //清空基本配置的插件列表
@@ -40,6 +42,13 @@ module.exports=merge(webpackBaseConfig,{
             template: './index.ejs',
             inject: false
         }),
+        new CopyWebpackPlugin([
+            {
+                from:path.join(__dirname,'./static'),  // 不打包直接输出的文件
+                to:'static',  // 打包后静态文件放置位置
+                ignore:['.*']  // 忽略规则。（这种写法表示将该文件夹下的所有文件都复制）
+            }
+        ]),
         new VueLoaderPlugin()
     ],
     optimization:{
@@ -52,7 +61,7 @@ module.exports=merge(webpackBaseConfig,{
                     compress:{
                         //warnings:false,
                         drop_debugger:true,
-                        drop_console:true
+                        drop_console:false
                     }
                 }
             })
