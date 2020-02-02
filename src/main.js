@@ -1,97 +1,51 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
-import Vuex from 'vuex';
+import router from './router'
+import { powerRouter } from './router';
+import store from './store';
 import App from './app.vue';
-import Ajax from '../libs/vue-xhr';
-Vue.use(VueRouter);
-Vue.use(Vuex);
-Vue.use(Ajax);
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
-const Routers =[
-    {
-        path:'/index',
-        meta:{ title:'首页'},
-        component:(resolve) => require(['./components/index.vue'],resolve)
-    },
-    {
-        path:'/about',
-        meta:{title:'关于'},
-        component:(resolve) => require(['./components/about.vue'],resolve)
-    },
-    {
-        path:'/user/:id',
-        meta:{title:'个人主页'},
-        component:(resolve) => require(['./components/user.vue'],resolve)
-    },
-    {
-        path:'/login',
-        meta:{title:'登录'},
-        component:(resolve) => require(['./components/login.vue'],resolve)
-    },
-    {
-        path:'*',
-        redirect:'/index'
-    }
-];
+Vue.use(ElementUI)
 
-const RouterConfig={
-    mode:'history',
-    routes: Routers
-}
+router.beforeEach((to, from, next) => {
+    if(store.getters.role){ //判断role 是否存在
+    	
+    	if(store.getters.newrouter.length !== 0){  
+       		next();
+	    }else{
+	    	let newrouter
+       		if (store.getters.role == 'A') {  //判断权限
+                newrouter = powerRouter
+            } else {
+                let newchildren = powerRouter[0].children.filter(route => {
+                    if(route.meta){
+                    	if(route.meta.role == store.getters.role){
+                    		return true
+                        }
+                        return false
+                    }else{
+                        return true
+                    }
+                });
+                newrouter = powerRouter
+                newrouter[0].children = newchildren
+            }
+            router.addRoutes(newrouter) //添加动态路由
+            store.dispatch('Roles',newrouter).then(res => { 
+                next({ ...to })
+            }).catch(() => {       
 
-const router = new VueRouter(RouterConfig);
-router.beforeEach((to,from,next) =>{
-    window.document.title=to.meta.title;
-    var token = window.localStorage.getItem('token');
-    if(token){
-        next();
-    } else{
-        if(to.path=='/login'){
-            next();
-        } else{
-            next('/login');
+            })
+	    }	  
+    }else{
+       	if (['/login'].indexOf(to.path) !== -1) { 
+           next()
+        } else {
+           next('/login')
         }
-        
-    }
-
-   
-});
-router.afterEach((to,from,next) =>{
-    window.scrollTo(0,0);
-});
-
-
-// vuex配置
-const store = new Vuex.Store({
-    state:{
-        count:0,
-        list:[1,5,8,10,30,50]
-    },
-    getters:{
-        filteredList: state=>{
-            return state.list.filter(item => item<10);
-        },
-        filteredListCount:(state,getters) =>{
-            return getters.filteredList.length;
-        }
-    },
-    mutations:{
-        increment(state,params){
-            state.count+=params.count;
-        }
-    },
-    actions:{
-        increment(context,params){
-            return new Promise( resolve =>{
-                setTimeout(()=>{
-                    context.commit(params);
-                    resolve();
-                },1000)
-            });
-        }
-    }
-});
-
+	}
+})
 new Vue({
     el:'#app',
     router: router,

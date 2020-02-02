@@ -12,6 +12,7 @@ const blue = { template: '<div style="background-color:#6680e0;color:#fff; font-
 
 
 export default new Router({
+    mode:'history',
     routes:[
         {
             path:'/login',

@@ -15,14 +15,14 @@ var config={
         path: path.join(__dirname,'./dist'),
         publicPath:'/dist/',
         filename:'[name].js',
-        chunkFilename:'[name].chunk.js'
+        chunkFilename:'[name].chunk.js',
         //sourceMapFilename:'main.map',
     },
     resolve:{
         extensions:['.js','.vue','.json'],
         alias:{
             'vue$': 'vue/dist/vue.esm.js',
-            '@':resolve('src')
+            '@': path.join(__dirname,'src')
         }
     },
     //devtool:'#source-map',

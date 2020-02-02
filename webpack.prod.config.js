@@ -30,12 +30,6 @@ module.exports=merge(webpackBaseConfig,{
                 NODE_ENV:'"production"'
             }
         }),
-        // 压缩js
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compress:{
-        //         warnings:false
-        //     }
-        // }),
         // 提取模板,并保存入口html文件
         new HtmlwebpackPlugin({
             filename: '../index_prod.html',
