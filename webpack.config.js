@@ -2,10 +2,14 @@ var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var VueLoaderPlugin = require('vue-loader/lib/plugin');
 
+function resolve (dir) {
+    return path.join(__dirname, '..', dir)
+}
 
+  
 var config={
     entry:{
-        main:'./main'
+        main:'./src/main'
     },
     output:{
         path: path.join(__dirname,'./dist'),
@@ -13,6 +17,13 @@ var config={
         filename:'[name].js',
         chunkFilename:'[name].chunk.js'
         //sourceMapFilename:'main.map',
+    },
+    resolve:{
+        extensions:['.js','.vue','.json'],
+        alias:{
+            'vue$': 'vue/dist/vue.esm.js',
+            '@':resolve('src')
+        }
     },
     //devtool:'#source-map',
     module:{

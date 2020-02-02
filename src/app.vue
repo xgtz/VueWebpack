@@ -1,9 +1,8 @@
 <template>
     <div>
-        <v-title title="Vue组件化"></v-title>
-        <v-button @click="handleClick">点击按钮</v-button>
+     
         <p>
-            <img src="./images/image.png" style="width: 200px;">
+            <img src="../static/images/image.png" style="width: 200px;">
         </p>
         <p>
             <img :src="imgUrl" style="width: 200px;">
@@ -13,11 +12,11 @@
     </div>
 </template>
 <script>
-    import vTitle from './title.vue';
-    import vButton from './button.vue';
-    import $ from './libs/util';
     
-
+    import vTitle from './components/title.vue';
+    import vButton from './components/button.vue';
+    import $ from '../libs/util';
+    
     export default {
         components:{
             vTitle,
@@ -31,7 +30,7 @@
         data (){
             return {
                 name:'Vue.js',
-                imgUrl:require("./images/image.png")
+                imgUrl:require("../static/images/image.png")
             }
         },
         mounted(){
@@ -60,6 +59,8 @@
             })
 
             */
+
+           /*
            var params =  "name=张三&age=5";
            var objParams={
                name:'张三',
@@ -73,7 +74,7 @@
                 console.log(error);
             })
 
-
+            */
           
        
 

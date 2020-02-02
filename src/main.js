@@ -1,13 +1,8 @@
-//  import './style.css';
-//document.getElementById('app').innerHTML='Hello Webpack. '
-
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import App from './app.vue';
-import Ajax from './vue-xhr';
-import axios from 'axios';
-
+import Ajax from '../libs/vue-xhr';
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(Ajax);
@@ -16,17 +11,22 @@ const Routers =[
     {
         path:'/index',
         meta:{ title:'首页'},
-        component:(resolve) => require(['./views/index.vue'],resolve)
+        component:(resolve) => require(['./components/index.vue'],resolve)
     },
     {
         path:'/about',
         meta:{title:'关于'},
-        component:(resolve) => require(['./views/about.vue'],resolve)
+        component:(resolve) => require(['./components/about.vue'],resolve)
     },
     {
         path:'/user/:id',
         meta:{title:'个人主页'},
-        component:(resolve) => require(['./views/user.vue'],resolve)
+        component:(resolve) => require(['./components/user.vue'],resolve)
+    },
+    {
+        path:'/login',
+        meta:{title:'登录'},
+        component:(resolve) => require(['./components/login.vue'],resolve)
     },
     {
         path:'*',
@@ -42,11 +42,24 @@ const RouterConfig={
 const router = new VueRouter(RouterConfig);
 router.beforeEach((to,from,next) =>{
     window.document.title=to.meta.title;
-    next();
+    var token = window.localStorage.getItem('token');
+    if(token){
+        next();
+    } else{
+        if(to.path=='/login'){
+            next();
+        } else{
+            next('/login');
+        }
+        
+    }
+
+   
 });
 router.afterEach((to,from,next) =>{
     window.scrollTo(0,0);
 });
+
 
 // vuex配置
 const store = new Vuex.Store({
@@ -78,18 +91,6 @@ const store = new Vuex.Store({
         }
     }
 });
-
-
-// axios.get('./static/project.config.json').then(response => {
-//     //console.log(response.data);
-//     Vue.prototype.baseConfig = response.data
-//     new Vue({
-//         el:'#app',
-//         router: router,
-//         store: store,
-//         render:h=>h(App)
-//     });
-// });
 
 new Vue({
     el:'#app',
