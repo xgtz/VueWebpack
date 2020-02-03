@@ -1,6 +1,7 @@
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var VueLoaderPlugin = require('vue-loader/lib/plugin');
+var apiMocker = require('webpack-api-mocker');
 
 function resolve (dir) {
     return path.join(__dirname, '..', dir)
@@ -26,6 +27,21 @@ var config={
         }
     },
     //devtool:'#source-map',
+    devServer:{
+        // port:8009, //端口号
+        // hot:true,  //是否使用热更新
+        // compress:true, // 压缩
+        // historyApiFallback:true,
+        // contentBase:path.join(__dirname,'output'), 
+        before(app){
+            apiMocker(app,path.resolve('./mock/index.js'),{
+                proxy:{
+                    '/repos/*':'https://api.github.com'
+                },
+                changeHost:true
+            })
+        }
+    },
     module:{
         rules:[
             {

@@ -6,7 +6,7 @@ const proxy = {
     },
     'GET /api/list': [{
             id: 1,
-            username: 'kenny',
+            username: 'kenny'
             sex: 6
         },
         {
