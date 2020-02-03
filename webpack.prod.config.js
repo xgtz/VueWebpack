@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
+var HtmlwebpackPlugin = require('html-webpack-plugin');  // 用来生成html插件
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var VueLoaderPlugin = require('vue-loader/lib/plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -32,8 +32,8 @@ module.exports=merge(webpackBaseConfig,{
         }),
         // 提取模板,并保存入口html文件
         new HtmlwebpackPlugin({
-            filename: '../index_prod.html',
-            template: './index.ejs',
+            filename: '../index_prod.html',     
+            template: './index.ejs',            //制定的模板
             inject: false
         }),
         new CopyWebpackPlugin([

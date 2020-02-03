@@ -1,20 +1,15 @@
 var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var VueLoaderPlugin = require('vue-loader/lib/plugin');
-
-function resolve (dir) {
-    return path.join(__dirname, '..', dir)
-}
-
+var ExtractTextPlugin = require('extract-text-webpack-plugin');  // 提取散落css的插件
+var VueLoaderPlugin = require('vue-loader/lib/plugin');    
   
 var config={
     entry:{
         main:'./src/main'
     },
     output:{
-        path: path.join(__dirname,'./dist'),
-        publicPath:'/dist/',
-        filename:'[name].js',
+        path: path.join(__dirname,'./dist'),   // 存放打包后文件的输出目录
+        publicPath:'/dist/',                   // 制定资源文件应用的目录
+        filename:'[name].js',                  
         chunkFilename:'[name].chunk.js',
         // filename:'main.js',
         sourceMapFilename:'[name].main.map',
