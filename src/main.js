@@ -9,32 +9,17 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
 router.beforeEach((to, from, next) => {
-    if(store.getters.role){ //判断role 是否存在
-    	
+    if(store.getters.menus && store.getters.menus.length>0){ 
     	if(store.getters.newrouter.length !== 0){  
        		next();
 	    }else{
-	    	let newrouter
-       		if (store.getters.role == 'A') {  //判断权限
-                newrouter = powerRouter
-            } else {
-                let newchildren = powerRouter[0].children.filter(route => {
-                    if(route.meta){
-                    	if(route.meta.role == store.getters.role){
-                    		return true
-                        }
-                        return false
-                    }else{
-                        return true
-                    }
-                });
-                newrouter = powerRouter
-                newrouter[0].children = newchildren
-            }
-            router.addRoutes(newrouter) //添加动态路由
+            let newrouter = powerRouter;
+            newrouter[0].children = store.getters.menus;
+            newrouter[0].redirect = store.getters.menus[0].path;
+            router.addRoutes(newrouter) 
             store.dispatch('Roles',newrouter).then(res => { 
                 next({ ...to })
-            }).catch(() => {       
+            }).catch((e) => {       
 
             })
 	    }	  
@@ -44,7 +29,7 @@ router.beforeEach((to, from, next) => {
         } else {
            next('/login')
         }
-	}
+    }
 })
 new Vue({
     el:'#app',

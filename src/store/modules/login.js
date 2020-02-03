@@ -1,10 +1,12 @@
 import { loginByUserInfo }from '../../api/login'
+import { userMenus } from '../../api/menu'
 const login = {
   state: {
-  	username:sessionStorage.getItem('USERNAME'),
-  	role:sessionStorage.getItem('ROLE'),
-  	introduce:'',
-  	newrouter:[],
+  		username:sessionStorage.getItem('USERNAME'),
+  		role:sessionStorage.getItem('ROLE'),
+  		introduce:'',
+	  	newrouter:[],
+	    menus:[],
   },
   mutations: {
   	SET_USERNAME:(state, username) => {
@@ -18,7 +20,11 @@ const login = {
   	},
   	SET_NEWROUER:(state, newrouter) =>{
   		state.newrouter = newrouter;
-  	},
+	},
+	SET_MENUS:(state,menus) =>{
+		//console.log(menus);
+		state.menus = menus;
+	}  
   },
   actions: {
   	Logins({ commit }, info){
@@ -29,7 +35,17 @@ const login = {
       				commit('SET_USERNAME',item.username);  //将username和role进行存储
       				sessionStorage.setItem('USERNAME', item.username); //存入 session 
       				commit('SET_ROLE',item.role);
-      				sessionStorage.setItem('ROLE', item.role);
+					sessionStorage.setItem('ROLE', item.role);
+					// 获取菜单信息
+					let newChildren= [];
+					userMenus.forEach(v=>{
+						newChildren.push({
+							name:v.name,
+							path:v.path,
+							component:(resolve) => require(['@/'+v.component],resolve)
+						});
+					});
+					commit('SET_MENUS',newChildren);
       				return data={username:item.username,introduce:item.introduce};
       			}else{
       				return data;

@@ -16,7 +16,8 @@ var config={
         publicPath:'/dist/',
         filename:'[name].js',
         chunkFilename:'[name].chunk.js',
-        //sourceMapFilename:'main.map',
+        // filename:'main.js',
+        sourceMapFilename:'[name].main.map',
     },
     resolve:{
         extensions:['.js','.vue','.json'],
@@ -25,7 +26,7 @@ var config={
             '@': path.join(__dirname,'src')
         }
     },
-    //devtool:'#source-map',
+    devtool:'#source-map',
     module:{
         rules:[
             {
@@ -67,6 +68,7 @@ var config={
     },
     plugins:[
         new ExtractTextPlugin("[name].css"),
+        //new ExtractTextPlugin("main.css"),
         new VueLoaderPlugin()
     ]
 };

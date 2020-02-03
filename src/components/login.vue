@@ -28,8 +28,8 @@ export default {
   },
   methods:{
      submituUserInfo(data){
-        console.log(data);
-         this.$store.dispatch('Logins',data).then(res => { 
+        this.$store.dispatch('Logins',data).then(res => { 
+          // debugger;
           this.$router.push({ path: '/' });
         }).catch(() => {
 

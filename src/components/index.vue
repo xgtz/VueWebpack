@@ -1,22 +1,18 @@
+
 <template>
     <el-container>
         <el-header class="header">
             <el-row>
                 <el-col :span="23">
                    <el-menu
-                    :default-active="$route.path"
+                    v-bind:default-active="$route.path"
                     class="el-menu-demo"
                     mode="horizontal"
                     background-color="#545c64"
                     text-color="#fff"
                     active-text-color="#ffd04b">
-                        <template v-for="item in newrouter[0].children" v-if="!item.hidden">
-                            <!-- <router-link  v-if="!item.hidden&&!item.children" :to="item.path">
-                                 <el-menu-item :index="item.path">
-                                     {{ item.name}}
-                                 </el-menu-item>
-                            </router-link> -->
-                            <el-menu-item :index="item.path" @click="menuClick(item.path)" >
+                        <template v-for="(item,index) in newrouter[0].children" v-if="!item.hidden">
+                            <el-menu-item :key="index" :index="item.path" @click="menuClick(item.path)" >
                                      {{ item.name}}
                             </el-menu-item>
                         </template>
@@ -42,9 +38,7 @@
             }
         },
         computed: {
-            ...mapGetters([
-                'newrouter'
-            ])
+            ...mapGetters([ 'newrouter'])  // 动态计算属性，相当于this.$store.getters.newrouter
         },
         methods: {
             logout(){
@@ -55,12 +49,12 @@
                 });
             },
             menuClick(path){
-                console.log(path);
+                //console.log(path);
                 this.$router.push({path: path});
             }
         },
         mounted(){
-        
+            
         }
     }
 </script>
